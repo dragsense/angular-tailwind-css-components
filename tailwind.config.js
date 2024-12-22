@@ -9,7 +9,7 @@ module.exports = {
     {
       pattern:
         /(bg|border|ring)-(primary|secondary|slate|gray|zinc|neutral|red|yellow|green)(-(50|100|200|300|400|500|600|700|800|900|950))?/,
-      variants: ["hover", "focus", "hover:dark"],
+      variants: ["hover", "focus", "dark", "hover:dark"],
     },
     {
       pattern: /(border)-('dashed' | 'dotted' | 'double' | 'solid' | 'none')/,
