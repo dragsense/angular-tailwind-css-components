@@ -1,28 +1,22 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import {
-  variant,
-  size,
-  colors,
-  colorVaraints,
-  roundedSize,
-  borderStyle,
-} from "../types/button.types";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { variant, size, colors, colorVaraints, borderStyle, roundedSize } from '../types/shared.types';
 
 @Component({
-  selector: "app-button",
+  selector: 'app-button',
   imports: [],
-  templateUrl: "./button.component.html",
-  styleUrls: ["./button.component.scss"],
+  templateUrl: './button.component.html',
+  styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent {
-  @Input() variant: variant = "filled";
-  @Input() color: colors = "primary";
+  @Input() variant: variant = 'filled';
+  @Input() color: colors = 'ds-primary';
+  @Input() ringColor: colors | undefined;
   @Input() colorVaraint: colorVaraints = 0;
-  @Input() className: string = "";
-  @Input() size: size = "md";
+  @Input() className: string = '';
+  @Input() size: size = 'md';
   @Input() fullWidth: boolean = false;
-  @Input() rounded: roundedSize = "md";
-  @Input() borderStyle: borderStyle = "solid";
+  @Input() rounded: roundedSize = 'md';
+  @Input() borderStyle: borderStyle = 'solid';
   @Input() disabled: boolean = false;
 
   @Output() onClick = new EventEmitter<void>();
@@ -42,11 +36,11 @@ export class ButtonComponent {
   };
 
   getClasses(): string {
-    const colorVaraint = this.colorVaraint !== 0 ? `-${this.colorVaraint}` : "";
+    const colorVaraint = this.colorVaraint !== 0 ? `-${this.colorVaraint}` : '';
     const color = `${this.color}${colorVaraint}`;
 
     const hoverFilledBgColorVaraint = this.calculateHoverVariant(
-      this.colorVaraint
+      this.colorVaraint,
     );
 
     const hoverFilledBgColor = `${this.color}-${hoverFilledBgColorVaraint}`;
@@ -58,33 +52,35 @@ export class ButtonComponent {
     const borderStyle = `border-${this.borderStyle}`;
 
     let classes =
-      this.variant === "filled"
+      this.variant === 'filled'
         ? `bg-${color} hover:bg-${hoverFilledBgColor} ${hoverFilledTextColor}`
-        : this.variant === "outlined"
-        ? `border border-${color} ${borderStyle} ${hoverBGClasses} ${hoverTextColor}`
-        : `border-${color} ${borderStyle} ${hoverBGClasses} ${hoverTextColor}`;
+        : this.variant === 'outlined'
+          ? `border border-${color} ${borderStyle} ${hoverBGClasses} ${hoverTextColor}`
+          : `border-${color} ${borderStyle} ${hoverBGClasses} ${hoverTextColor}`;
 
     classes +=
-      this.size === "sm"
+      this.size === 'sm'
         ? ` text-sm px-2 py-1`
-        : this.size === "md"
-        ? ` text-base px-3 py-2`
-        : ` text-lg px-4 py-3`;
+        : this.size === 'md'
+          ? ` text-base px-3 py-2`
+          : ` text-lg px-4 py-3`;
 
     classes +=
-      this.rounded === "sm"
+      this.rounded === 'sm'
         ? ` rounded-sm`
-        : this.rounded === "md"
-        ? ` rounded-md`
-        : this.rounded === "lg"
-        ? ` rounded-lg`
-        : this.rounded === "full"
-        ? ` rounded-full`
-        : ``;
+        : this.rounded === 'md'
+          ? ` rounded-md`
+          : this.rounded === 'lg'
+            ? ` rounded-lg`
+            : this.rounded === 'full'
+              ? ` rounded-full`
+              : ``;
 
     classes += this.fullWidth ? ` w-full` : ``;
 
-    let baseClasses = `transition focus:outline-none focus:ring-1 focus:ring-${color} focus:ring-offset-1`;
+    const ringColor = this.ringColor ? `${this.ringColor}-500` : color;
+
+    let baseClasses = `transition focus:outline-none focus:ring-1 focus:ring-${ringColor} focus:ring-offset-1`;
 
     return `${baseClasses} ${classes} ${this.className}`;
   }
