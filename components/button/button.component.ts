@@ -7,11 +7,10 @@ import {
   roundedSize,
   borderStyle,
 } from "../types/button.types";
-import { NgClass } from "@angular/common";
 
 @Component({
   selector: "app-button",
-  imports: [NgClass],
+  imports: [],
   templateUrl: "./button.component.html",
   styleUrls: ["./button.component.scss"],
 })
